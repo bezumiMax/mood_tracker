@@ -1,0 +1,9 @@
+{
+  "short_name": "МойНастрой",
+  "name": "Трекер настроения",
+  "icons": [],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#1a1a2e",
+  "background_color": "#1a1a2e"
+}
