@@ -48,15 +48,14 @@ export class App extends React.Component {
     this.assistant = initializeAssistant(() => this.getStateForAssistant());
 
     this.assistant.on('data', (event) => {
-      console.log('assistant.on(data)', event);
+      if (!event || typeof event !== 'object') return;
       if (event.type === 'character' || event.type === 'insets') return;
-      // $response.action из .sc файла приходит как event.action
-      // $response.replies с smart_app_data приходит как event.smart_app_data
-      if (event.type === 'smart_app_data' && event.smart_app_data) {
-        this.dispatchAssistantAction(event.smart_app_data);
-        return;
-      }
-      this.dispatchAssistantAction(event.action);
+      const action =
+        event.action ||
+        (event.smart_app_data && event.smart_app_data.action) ||
+        (event.server_action && event.server_action.action);
+      console.log('assistant data type:', event.type, 'action:', JSON.stringify(action));
+      this.dispatchAssistantAction(action);
     });
 
     this.assistant.on('start', (event) => {
